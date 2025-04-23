@@ -4,7 +4,7 @@ import 'package:trackizer/common/color_extension.dart';
 import 'package:trackizer/common_widget/budgets_row.dart';
 import 'package:trackizer/common_widget/custom_arc_180_painter.dart';
 
-import '../settings/settings_view.dart';
+import '../settings/views/settings_view.dart';
 
 class SpendingBudgetsView extends StatefulWidget {
   const SpendingBudgetsView({super.key});

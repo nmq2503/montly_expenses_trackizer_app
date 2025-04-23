@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:trackizer/routes/app_routes.dart';
 
+import '../../../common_widget/custom_snackbar.dart';
+import '../../../controllers/app_controller.dart';
 import '../../../services/database_service.dart';
 import '../../../utils/validation.dart';
 
@@ -62,7 +64,10 @@ class SignInController extends GetxController {
 
   void signIn() async {
     if (email.isEmpty || password.isEmpty) {
-      _showErrorSnackbar('Vui lòng nhập email và mật khẩu');
+      CustomSnackbar.showErrorSnackbar(
+        "Lỗi",
+        "Vui lòng nhập email và mật khẩu",
+      );
       return;
     }
 
@@ -70,12 +75,18 @@ class SignInController extends GetxController {
     final String? validatePassword = Validation.validatePassword(password);
 
     if (validateEmail != null) {
-      _showErrorSnackbar(validateEmail);
+      CustomSnackbar.showErrorSnackbar(
+        "Lỗi",
+        validateEmail,
+      );
       return;
     }
 
     if (validatePassword != null) {
-      _showErrorSnackbar(validatePassword);
+      CustomSnackbar.showErrorSnackbar(
+        "Lỗi",
+        validatePassword,
+      );
       return;
     }
 
@@ -87,12 +98,17 @@ class SignInController extends GetxController {
 
       String userId = userCredential.user!.uid;
 
-      // Lấy thông tin người dùng từ Firestore
       DocumentSnapshot userData = await _firestoreService.getUserData(userId);
 
-      // Dùng getter để lấy giá trị email và password
       if (userData.exists) {
-        _showSuccessSnackbar();
+        CustomSnackbar.showSuccessSnackbar(
+          "Đăng nhập thành công",
+          "Chào mừng ${userData['userName']}!",
+        );
+
+        final appController = Get.find<AppController>();
+        appController.setUser(userCredential.user);
+
         if (isRemember) {
           _storage.write('isRemember', true);
           _storage.write('email', email);
@@ -102,49 +118,29 @@ class SignInController extends GetxController {
           _storage.remove('email');
           _storage.remove('password');
         }
+
         Get.offAllNamed(AppRoutes.mainTab);
       } else {
-        _showErrorSnackbar('Email hoặc mật khẩu không đúng');
+        CustomSnackbar.showErrorSnackbar(
+          "Lỗi",
+          "Tài khoản không tồn tại",
+        );
         return;
       }
     } on FirebaseAuthException catch (e) {
-      // _showErrorSnackbar(e.message ?? "Đăng nhập thất bại");
+      if (e.code == "invalid-credential") {
+        CustomSnackbar.showErrorSnackbar(
+          "Lỗi",
+          "Email hoặc mật khẩu không hợp lệ",
+        );
+      }
       debugPrint('FirebaseAuthException in signIn(): $e');
     } catch (e) {
-      _showErrorSnackbar("Lỗi không xác định");
+      CustomSnackbar.showErrorSnackbar(
+        "Lỗi",
+        "Đăng nhập thất bại",
+      );
     }
-  }
-
-  void _showSuccessSnackbar() {
-    if (Get.isSnackbarOpen) return;
-
-    Get.snackbar(
-      'Đăng nhập thành công',
-      'Chào mừng bạn!',
-      margin: const EdgeInsets.all(12),
-      snackPosition: SnackPosition.TOP,
-      backgroundColor: Colors.green,
-      colorText: Colors.white,
-    );
-  }
-
-  // Hiển thị snackbar thất bại
-  void _showErrorSnackbar(String message) {
-    if (Get.isSnackbarOpen) return;
-
-    Get.snackbar(
-      'Lỗi đăng nhập',
-      message,
-      margin: const EdgeInsets.all(12),
-      snackPosition: SnackPosition.TOP,
-      backgroundColor: Colors.red,
-      colorText: Colors.white,
-    );
-  }
-
-  // Điều hướng tới trang đăng ký
-  void goToSignUp() {
-    Get.toNamed(AppRoutes.signUp);
   }
 
   @override

@@ -89,7 +89,7 @@ class SignUpController extends GetxController {
         _txtPassword.text.trim().isNotEmpty &&
         _txtConfirmPassword.text.trim().isNotEmpty;
 
-    enableButton = isAllFilled;
+    _enableButton.value = isAllFilled;
   }
 
   Future<void> signUp() async {

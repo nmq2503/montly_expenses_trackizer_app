@@ -5,9 +5,11 @@ import 'package:trackizer/features/auth/bindings/sign_up_binding.dart';
 import 'package:trackizer/features/auth/views/sign_in_view.dart';
 import 'package:trackizer/features/auth/views/sign_up_view.dart';
 import 'package:trackizer/features/auth/views/social_login.dart';
+import 'package:trackizer/features/settings/views/settings_view.dart';
 import 'package:trackizer/features/splash/views/splash_screen.dart';
 
 import '../features/main_tab/main_tab_view.dart';
+import '../features/settings/bindings/settings_view_binding.dart';
 import '../features/splash/splash_binding.dart';
 import 'app_routes.dart';
 
@@ -43,9 +45,16 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.mainTab,
-      page: () => const MainTabView(), // tạo riêng
+      page: () => const MainTabView(),
       // transition: Transition.fadeIn,
       curve: Curves.easeInOut,
+    ),
+    GetPage(
+      name: AppRoutes.settingsView,
+      page: () => const SettingsView(),
+      // transition: Transition.fadeIn,
+      curve: Curves.easeInOut,
+      binding: SettingsViewBinding(),
     ),
   ];
 }

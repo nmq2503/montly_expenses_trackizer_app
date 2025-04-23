@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:trackizer/common/color_extension.dart';
+import 'package:trackizer/routes/app_routes.dart';
 
 import '../../common_widget/custom_arc_painter.dart';
 import '../../common_widget/segment_button.dart';
 import '../../common_widget/status_button.dart';
 import '../../common_widget/subscription_home_row.dart';
 import '../../common_widget/upcoming_bill_row.dart';
-import '../settings/settings_view.dart';
+import '../settings/views/settings_view.dart';
 import '../subscription_info/subscription_info_view.dart';
 
 class HomeView extends StatefulWidget {
@@ -86,11 +88,7 @@ class _HomeViewState extends State<HomeView> {
                             Spacer(),
                             IconButton(
                                 onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const SettingsView()));
+                                  Get.toNamed(AppRoutes.settingsView);
                                 },
                                 icon: Image.asset("assets/img/settings.png",
                                     width: 25,
