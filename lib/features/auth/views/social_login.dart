@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:trackizer/view/login/sign_up_view.dart';
+import 'package:get/get.dart';
+import 'package:trackizer/features/auth/views/sign_up_view.dart';
 
-import '../../common/color_extension.dart';
-import '../../common_widget/secondary_boutton.dart';
+import '../../../common/color_extension.dart';
+import '../../../common_widget/secondary_boutton.dart';
+import '../../../routes/app_routes.dart';
 
 class SocialLoginView extends StatefulWidget {
   const SocialLoginView({super.key});
@@ -156,10 +158,7 @@ class _SocialLoginViewState extends State<SocialLoginView> {
               SecondaryButton(
                 title: "Sign up with E-mail",
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SignUpView()));
+                  Get.offNamed(AppRoutes.signIn);
                 },
               ),
               const SizedBox(

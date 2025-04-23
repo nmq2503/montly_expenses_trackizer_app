@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "49965127733",
+    "project_id": "montly-trackier",
+    "storage_bucket": "montly-trackier.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:49965127733:android:3b65d990ab94754b60397c",
+        "android_client_info": {
+          "package_name": "com.codeforany.trackizer"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4Gz6ckLWFsvY9tLVOXSgREH8BiwwFVtU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

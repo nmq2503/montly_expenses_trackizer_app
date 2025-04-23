@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:calendar_agenda/calendar_agenda.dart';
 import 'package:flutter/material.dart';
 import 'package:trackizer/common/color_extension.dart';
-import 'package:trackizer/view/settings/settings_view.dart';
+import 'package:trackizer/features/settings/settings_view.dart';
 
 import '../../common_widget/subscription_cell.dart';
 
