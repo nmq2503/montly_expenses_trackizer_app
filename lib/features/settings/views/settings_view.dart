@@ -75,7 +75,7 @@ class SettingsView extends GetView<SettingsViewController> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Code For Any",
+                              controller.appController.userData?.fullName ?? "",
                               style: TextStyle(
                                   color: TColor.white,
                                   fontSize: 20,
@@ -90,7 +90,7 @@ class SettingsView extends GetView<SettingsViewController> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "codeforany@gmail.com",
+                              controller.appController.userData?.email ?? "",
                               style: TextStyle(
                                   color: TColor.gray30,
                                   fontSize: 12,

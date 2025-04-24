@@ -10,6 +10,7 @@ class SettingsViewController extends GetxController {
   bool get isLoading => _isLoading.value;
 
   late AppController _appController;
+  AppController get appController => _appController;
 
   @override
   void onInit() {

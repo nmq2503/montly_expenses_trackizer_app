@@ -3,14 +3,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class FirestoreService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  // Hàm thêm dữ liệu người dùng vào Firestore
   Future<bool> addUserData(String userId, Map<String, dynamic> userData) async {
     try {
       await _db.collection('Users').doc(userId).set(userData);
-      print("User data added successfully");
+      // print("User data added successfully");
       return true;
     } catch (e) {
-      print("Error saving user data to Firestore: $e");
+      // print("Error saving user data to Firestore: $e");
       return false;
     }
   }

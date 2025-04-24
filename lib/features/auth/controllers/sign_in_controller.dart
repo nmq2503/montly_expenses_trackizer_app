@@ -1,8 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:trackizer/models/user_data.dart';
 import 'package:trackizer/routes/app_routes.dart';
 
 import '../../../common_widget/custom_snackbar.dart';
@@ -62,7 +62,7 @@ class SignInController extends GetxController {
     isRemember = !isRemember;
   }
 
-  void signIn() async {
+  Future<void> signIn() async {
     if (email.isEmpty || password.isEmpty) {
       CustomSnackbar.showErrorSnackbar(
         "Lỗi",
@@ -91,42 +91,47 @@ class SignInController extends GetxController {
     }
 
     try {
-      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+      final userCredential = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      String userId = userCredential.user!.uid;
-
-      DocumentSnapshot userData = await _firestoreService.getUserData(userId);
-
-      if (userData.exists) {
-        CustomSnackbar.showSuccessSnackbar(
-          "Đăng nhập thành công",
-          "Chào mừng ${userData['userName']}!",
-        );
-
-        final appController = Get.find<AppController>();
-        appController.setUser(userCredential.user);
-
-        if (isRemember) {
-          _storage.write('isRemember', true);
-          _storage.write('email', email);
-          _storage.write('password', password);
-        } else {
-          _storage.remove('isRemember');
-          _storage.remove('email');
-          _storage.remove('password');
-        }
-
-        Get.offAllNamed(AppRoutes.mainTab);
-      } else {
+      final userId = userCredential.user?.uid;
+      if (userId == null) {
         CustomSnackbar.showErrorSnackbar(
           "Lỗi",
           "Tài khoản không tồn tại",
         );
         return;
       }
+
+      final userDoc = await _firestoreService.getUserData(userId);
+
+      if (!userDoc.exists) {
+        return CustomSnackbar.showErrorSnackbar(
+            "Lỗi", "Tài khoản không tồn tại");
+      }
+
+      final userMap = userDoc.data() as Map<String, dynamic>;
+      final user = UserData.fromJson(userMap);
+      Get.find<AppController>().setUserData(userCredential.user!, user);
+
+      if (isRemember) {
+        _storage.write('isRemember', true);
+        _storage.write('email', email);
+        _storage.write('password', password);
+      } else {
+        _storage.remove('isRemember');
+        _storage.remove('email');
+        _storage.remove('password');
+      }
+
+      CustomSnackbar.showSuccessSnackbar(
+        "Đăng nhập thành công",
+        "Chào mừng ${user.userName}!",
+      );
+
+      Get.offAllNamed(AppRoutes.mainTab);
     } on FirebaseAuthException catch (e) {
       if (e.code == "invalid-credential") {
         CustomSnackbar.showErrorSnackbar(
@@ -140,6 +145,7 @@ class SignInController extends GetxController {
         "Lỗi",
         "Đăng nhập thất bại",
       );
+      debugPrint('Error in signIn(): $e');
     }
   }
 

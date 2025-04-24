@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:trackizer/common/color_extension.dart';
 import 'package:trackizer/firebase_options.dart';
 import 'package:trackizer/routes/app_pages.dart';
@@ -16,10 +15,6 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // FirebaseFirestore.instance.settings = const Settings(
-  //   persistenceEnabled: true,
-  //   cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
-  // );
 
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -54,8 +49,6 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      // home: const MainTabView(),
-      // home: const SplashScreen(),
     );
   }
 }

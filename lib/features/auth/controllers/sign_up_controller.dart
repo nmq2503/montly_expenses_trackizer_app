@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:trackizer/common_widget/custom_snackbar.dart';
+import 'package:trackizer/models/user_data.dart';
 import 'package:trackizer/routes/app_routes.dart';
 
 import '../../../services/database_service.dart';
@@ -153,16 +154,22 @@ class SignUpController extends GetxController {
         String userId = userCredential.user!.uid;
 
         Map<String, dynamic> userData = {
-          'fullName': fullName,
-          'userName': userName,
-          'email': email,
-          'password': password,
-          "createdAt": FieldValue.serverTimestamp(),
+          "full_name": fullName,
+          "user_name": userName,
+          "email": email,
+          "phone": "",
+          "image_url": "",
+          "created_at": FieldValue.serverTimestamp(),
+          "updated_at": FieldValue.serverTimestamp(),
         };
 
         await _firestoreService.addUserData(userId, userData);
 
-        Get.offNamed(AppRoutes.signIn);
+        Future.delayed(const Duration(seconds: 1), () {
+          CustomSnackbar.showSuccessSnackbar(
+              "Thành công", "Đăng ký tài khoản thành công");
+          Get.offNamed(AppRoutes.signIn);
+        });
       } catch (e) {
         CustomSnackbar.showErrorSnackbar(
             "Lỗi", "Đã xảy ra lỗi khi đăng ký tài khoản");

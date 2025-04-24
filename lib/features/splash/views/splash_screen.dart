@@ -50,20 +50,21 @@ class SplashScreen extends GetView<SplashController> {
                           ),
                           const Spacer(),
                           Text(
-                            "Welcome to Trackizer",
+                            "Chào mừng đến với Trackizer",
                             textAlign: TextAlign.center,
-                            style: TextStyle(color: TColor.white, fontSize: 14),
+                            style: TextStyle(color: TColor.white, fontSize: 14,
+                                fontWeight: FontWeight.w600),
                           ),
                           const SizedBox(height: 30),
                           PrimaryButton(
-                            title: "Get started",
+                            title: "Bắt đầu",
                             onPressed: () {
                               Get.toNamed(AppRoutes.socialLogin);
                             },
                           ),
                           const SizedBox(height: 15),
                           SecondaryButton(
-                            title: "I have an account",
+                            title: "Bạn đã có tài khoản? Đăng nhập ngay",
                             onPressed: () async {
                               Future.delayed(const Duration(milliseconds: 500), () {
                                 Get.toNamed(AppRoutes.signIn);
