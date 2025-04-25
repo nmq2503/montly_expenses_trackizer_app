@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:trackizer/features/auth/views/sign_up_view.dart';
 
 import '../../../common/color_extension.dart';
 import '../../../common_widget/secondary_boutton.dart';
@@ -156,7 +155,7 @@ class _SocialLoginViewState extends State<SocialLoginView> {
                 height: 25,
               ),
               SecondaryButton(
-                title: "Sign up with E-mail",
+                title: "Đăng nhập với Email",
                 onPressed: () {
                   Get.offNamed(AppRoutes.signIn);
                 },

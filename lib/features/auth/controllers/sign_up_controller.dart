@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:trackizer/common_widget/custom_snackbar.dart';
-import 'package:trackizer/models/user_data.dart';
 import 'package:trackizer/routes/app_routes.dart';
 
 import '../../../services/database_service.dart';

@@ -47,9 +47,12 @@ class SettingsView extends GetView<SettingsViewController> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "Settings",
+                                  "Cài đặt",
                                   style: TextStyle(
-                                      color: TColor.gray30, fontSize: 16),
+                                    color: TColor.gray30,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                  ),
                                 )
                               ],
                             ),
@@ -114,17 +117,20 @@ class SettingsView extends GetView<SettingsViewController> {
                               borderRadius: BorderRadius.circular(15),
                             ),
                             child: Text(
-                              "Edit profile",
+                              "Chỉnh sửa thông tin",
                               style: TextStyle(
-                                  color: TColor.white,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600),
+                                color: TColor.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(
-                              vertical: 20, horizontal: 20),
+                            vertical: 20,
+                            horizontal: 20,
+                          ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

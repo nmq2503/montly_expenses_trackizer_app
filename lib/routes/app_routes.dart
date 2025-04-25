@@ -7,4 +7,5 @@ abstract class AppRoutes {
   static const signUp = '/sign_up_view';
   static const mainTab = '/main_tab_view';
   static const settingsView = '/settings_view';
+  static const addSubscriptionView = '/add_subscription_view';
 }

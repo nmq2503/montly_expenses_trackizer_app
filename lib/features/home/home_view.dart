@@ -8,7 +8,6 @@ import '../../common_widget/segment_button.dart';
 import '../../common_widget/status_button.dart';
 import '../../common_widget/subscription_home_row.dart';
 import '../../common_widget/upcoming_bill_row.dart';
-import '../settings/views/settings_view.dart';
 import '../subscription_info/subscription_info_view.dart';
 
 class HomeView extends StatefulWidget {

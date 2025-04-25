@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: AppRoutes.splash,
       getPages: AppPages.routes,
-      defaultTransition: Transition.rightToLeftWithFade,
+      // defaultTransition: Transition.rightToLeftWithFade,
       transitionDuration: const Duration(milliseconds: 600),
       theme: ThemeData(
         fontFamily: "Inter",
