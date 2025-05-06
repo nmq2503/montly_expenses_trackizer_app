@@ -74,19 +74,9 @@ class SignInController extends GetxController {
     final String? validateEmail = Validation.validateEmail(email);
     final String? validatePassword = Validation.validatePassword(password);
 
-    if (validateEmail != null) {
+    if (validateEmail != null || validatePassword != null) {
       CustomSnackbar.showErrorSnackbar(
-        "Lỗi",
-        validateEmail,
-      );
-      return;
-    }
-
-    if (validatePassword != null) {
-      CustomSnackbar.showErrorSnackbar(
-        "Lỗi",
-        validatePassword,
-      );
+          "Lỗi", validateEmail ?? validatePassword!);
       return;
     }
 
@@ -112,9 +102,10 @@ class SignInController extends GetxController {
             "Lỗi", "Tài khoản không tồn tại");
       }
 
-      final userMap = userDoc.data() as Map<String, dynamic>;
-      final user = UserData.fromJson(userMap);
-      Get.find<AppController>().setUserData(userCredential.user!, user);
+      // final userMap = userDoc.data() as Map<String, dynamic>;
+      // final user = UserData.fromJson(userMap);
+      final userData = UserData.fromJson(userDoc.data() as Map<String, dynamic>);
+      Get.find<AppController>().setUserData(userCredential.user!, userData);
 
       if (isRemember) {
         _storage.write('isRemember', true);
@@ -128,7 +119,7 @@ class SignInController extends GetxController {
 
       CustomSnackbar.showSuccessSnackbar(
         "Đăng nhập thành công",
-        "Chào mừng ${user.userName}!",
+        "Chào mừng ${userData.userName}!",
       );
 
       Get.offAllNamed(AppRoutes.mainTab);

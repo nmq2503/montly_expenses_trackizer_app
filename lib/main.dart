@@ -6,11 +6,14 @@ import 'package:trackizer/common/color_extension.dart';
 import 'package:trackizer/firebase_options.dart';
 import 'package:trackizer/routes/app_pages.dart';
 import 'package:trackizer/routes/app_routes.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import 'controllers/app_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await initializeDateFormatting();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -38,6 +41,11 @@ class MyApp extends StatelessWidget {
       getPages: AppPages.routes,
       // defaultTransition: Transition.rightToLeftWithFade,
       transitionDuration: const Duration(milliseconds: 600),
+      // localizationsDelegates: GlobalMaterialLocalizations.delegates,
+      // supportedLocales: const [
+      //   Locale('en', ''),
+      //   Locale('vi', ''),
+      // ],
       theme: ThemeData(
         fontFamily: "Inter",
         colorScheme: ColorScheme.fromSeed(

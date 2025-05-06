@@ -44,4 +44,22 @@ class FirestoreService {
       print("Error deleting user data: $e");
     }
   }
+
+  // Hàm lưu subscription
+  Future<void> saveSubscription(String userId, Map<String, dynamic> subscriptionData) async {
+    try {
+      await _db.collection('subscriptions').add({
+        'name': subscriptionData['name'],
+        'description': subscriptionData['description'],
+        'reminder': subscriptionData['reminder'],
+        'amount': subscriptionData['amount'],
+        'duaDateAt': FieldValue.serverTimestamp(),
+        'createdAt': FieldValue.serverTimestamp(), 
+        'updatedAt': FieldValue.serverTimestamp(),
+      });
+      print("Subscription saved successfully");
+    } catch (e) {
+      print("Error saving subscription: $e");
+    }
+  }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:trackizer/features/add_subscription/add_subscription_binding.dart';
 import 'package:trackizer/features/auth/bindings/sign_in_binding.dart';
 import 'package:trackizer/features/auth/bindings/sign_up_binding.dart';
 import 'package:trackizer/features/auth/views/sign_in_view.dart';
@@ -49,7 +50,7 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.mainTab,
-      page: () => MainTabView(),
+      page: () => const MainTabView(),
       transition: Transition.fadeIn,
       curve: Curves.easeInOut,
       transitionDuration: const Duration(milliseconds: 600),
@@ -64,10 +65,11 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.addSubscriptionView,
-      page: () => const AddSubScriptionView(),
+      page: () => AddSubScriptionView(),
       transition: Transition.native,
       curve: Curves.easeInOut,
       transitionDuration: const Duration(milliseconds: 500),
+      binding: AddSubScriptionBinding()
     ),
   ];
 }

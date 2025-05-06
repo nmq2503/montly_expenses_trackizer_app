@@ -4,6 +4,9 @@ import 'package:get_storage/get_storage.dart';
 import 'package:trackizer/models/user_data.dart';
 
 class AppController extends GetxController {
+  final RxString _userId = ''.obs;
+  String get userId => _userId.value;
+  set userId(String value) => _userId.value = value;
 
   final Rxn<User> _firebaseUser = Rxn<User>();
   User? get firebaseUser => _firebaseUser.value;
@@ -19,16 +22,22 @@ class AppController extends GetxController {
   void setUserData(User? fireBaseUser, UserData? userData) async {
     _firebaseUser.value = fireBaseUser;
     _userData.value = userData;
+    _userId.value = fireBaseUser?.uid ?? '';
 
     if (userData != null) {
       _localStorage.write('userData', userData.toJson());
+      if (_userId.value.isNotEmpty) {
+        _localStorage.write('userId', _userId.value);
+      }
     }
   }
 
   Future<void> clearData() async {
     _firebaseUser.value = null;
     _userData.value = null;
+    _userId.value = '';
     _localStorage.remove('userData');
+    _localStorage.remove('userId');
     await FirebaseAuth.instance.signOut();
   }
 

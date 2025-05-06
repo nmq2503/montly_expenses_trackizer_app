@@ -1,34 +1,44 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:get/get.dart';
 import 'package:trackizer/common/color_extension.dart';
 import 'package:trackizer/common_widget/primary_button.dart';
 import 'package:trackizer/common_widget/round_textfield.dart';
+import 'package:trackizer/features/add_subscription/controllers/add_subscrition_controller.dart';
 
+import '../../../common_widget/custom_calendar_picker_dialog.dart';
 import '../../../common_widget/image_button.dart';
 
-class AddSubScriptionView extends StatefulWidget {
+final today = DateUtils.dateOnly(DateTime.now());
+
+class AddSubScriptionView extends GetView<AddSubScriptionController> {
   const AddSubScriptionView({super.key});
 
-  @override
-  State<AddSubScriptionView> createState() => _AddSubScriptionViewState();
-}
+  // List<DateTime?> _dialogCalendarPickerValue = [
+  //   DateTime(2021, 8, 10),
+  //   DateTime(2021, 8, 13),
+  // ];
+  // List<DateTime?> _singleDatePickerValueWithDefaultValue = [
+  //   DateTime.now().add(const Duration(days: 1)),
+  // ];
+  // List<DateTime?> _multiDatePickerValueWithDefaultValue = [
+  //   DateTime(today.year, today.month, 1),
+  //   DateTime(today.year, today.month, 5),
+  //   DateTime(today.year, today.month, 14),
+  //   DateTime(today.year, today.month, 17),
+  //   DateTime(today.year, today.month, 25),
+  // ];
+  // List<DateTime?> _rangeDatePickerValueWithDefaultValue = [
+  //   DateTime(1999, 5, 6),
+  //   DateTime(1999, 5, 21),
+  // ];
 
-class _AddSubScriptionViewState extends State<AddSubScriptionView> {
-  TextEditingController txtDescription = TextEditingController();
-
-  List subArr = [
-    {"name": "HBO GO", "icon": "assets/img/hbo_logo.png"},
-    {"name": "Spotify", "icon": "assets/img/spotify_logo.png"},
-    {"name": "YouTube Premium", "icon": "assets/img/youtube_logo.png"},
-    {
-      "name": "Microsoft OneDrive",
-      "icon": "assets/img/onedrive_logo.png",
-    },
-    {"name": "NetFlix", "icon": "assets/img/netflix_logo.png"}
-  ];
-
-  double amountVal = 0.09;
+  // List<DateTime?> _rangeDatePickerWithActionButtonsWithValue = [
+  //   DateTime.now(),
+  //   DateTime.now().add(const Duration(days: 5)),
+  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -68,9 +78,12 @@ class _AddSubScriptionViewState extends State<AddSubScriptionView> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "New",
-                              style:
-                                  TextStyle(color: TColor.gray30, fontSize: 16),
+                              "THÊM MỚI",
+                              style: TextStyle(
+                                color: TColor.gray30,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                              ),
                             )
                           ],
                         ),
@@ -79,12 +92,13 @@ class _AddSubScriptionViewState extends State<AddSubScriptionView> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 20),
                       child: Text(
-                        "Add new\n subscription",
+                        "Thêm\nđăng ký mới".toUpperCase(),
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: TColor.white,
-                            fontSize: 40,
-                            fontWeight: FontWeight.w700),
+                          color: TColor.white,
+                          fontSize: 40,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -99,11 +113,14 @@ class _AddSubScriptionViewState extends State<AddSubScriptionView> {
                           viewportFraction: 0.65,
                           enlargeFactor: 0.4,
                           enlargeStrategy: CenterPageEnlargeStrategy.zoom,
+                          onPageChanged: (index, reason) {
+                            controller.setSelectedIndex(index);
+                          },
                         ),
-                        itemCount: subArr.length,
+                        itemCount: controller.subArr.length,
                         itemBuilder: (BuildContext context, int itemIndex,
                             int pageViewIndex) {
-                          var sObj = subArr[itemIndex] as Map? ?? {};
+                          var sObj = controller.subArr[itemIndex] as Map? ?? {};
 
                           return Container(
                             margin: const EdgeInsets.all(10),
@@ -134,80 +151,121 @@ class _AddSubScriptionViewState extends State<AddSubScriptionView> {
                 ),
               ),
             ),
-
             Padding(
               padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
-              child: RoundTextField(title: "Description", titleAlign: TextAlign.center, controller: txtDescription, )
-
-            ),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  ImageButton(
-                    image: "assets/img/minus.png",
-                    onPressed: () {
-
-                      amountVal -= 0.1;
-
-                      if(amountVal < 0) {
-                        amountVal = 0;
-                      }
-
-                      setState(() {
-                        
-                      });
-                    },
-                  ),
-
-                  Column(
-                    children: [
-                        Text(
-                        "Monthly price",
-                        style: TextStyle(
-                            color: TColor.gray40,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600),
-                      ),
-
-                     const SizedBox(height: 4,),
-
-                       Text(
-                        "\$${amountVal.toStringAsFixed(2)}",
-                        style: TextStyle(
-                            color: TColor.white,
-                            fontSize: 40,
-                            fontWeight: FontWeight.w700),
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-
-                      Container(
-                        width: 150,
-                        height: 1,
-                        color: TColor.gray70,
-                      )
-                    ],
-                  ),
-
-                  ImageButton(
-                    image: "assets/img/plus.png",
-                    onPressed: () {
-                      amountVal += 0.1;
-
-                      setState(() {});
-                    },
-                  )
-                ],
+              child: RoundTextField(
+                title: "Ghi chú",
+                titleAlign: TextAlign.center,
+                controller: controller.txtDescription,
               ),
             ),
             Padding(
+              padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Text(
+                    "Tiền hàng tháng",
+                    style: TextStyle(
+                        color: TColor.gray40,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      ImageButton(
+                        image: "assets/img/minus.png",
+                        onPressed: () {},
+                      ),
+                      Expanded(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            // Text(
+                            //   // "\$${amountVal.toStringAsFixed(2)}",
+                            //   "${amountVal.toStringAsFixed(2)} VNĐ",
+                            //   style: TextStyle(
+                            //       color: TColor.white,
+                            //       fontSize: 35,
+                            //       fontWeight: FontWeight.w700),
+                            // ),
+
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 15,
+                              ),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    child: TextField(
+                                      controller: controller.amountController,
+                                      keyboardType: TextInputType.number,
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter
+                                            .digitsOnly, // CHẶN ký tự không phải số
+                                      ],
+                                      textAlign: TextAlign.center,
+                                      decoration: const InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: "Nhập số tiền",
+                                        hintStyle: TextStyle(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      style: TextStyle(
+                                        color: TColor.white,
+                                        fontSize: 35,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 2,
+                                  ),
+                                  Text(
+                                    "VNĐ",
+                                    style: TextStyle(
+                                      color: TColor.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Container(
+                              width: 150,
+                              height: 1,
+                              color: TColor.gray70,
+                            )
+                          ],
+                        ),
+                      ),
+                      ImageButton(
+                        image: "assets/img/plus.png",
+                        onPressed: () {},
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            CustomCalendarPickerDialog(),
+            Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child:
-                  PrimaryButton(title: "Add this platform", onPressed: () {}),
+              child: PrimaryButton(
+                title: "THÊM ĐĂNG KÝ",
+                onPressed: () {
+                  controller.saveSubscription();
+                },
+              ),
             ),
             const SizedBox(
               height: 20,

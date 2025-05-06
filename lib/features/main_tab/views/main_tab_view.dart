@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
+import 'package:trackizer/features/add_subscription/views/test.dart';
 import 'package:trackizer/routes/app_routes.dart';
 import 'package:trackizer/utils/local_images.dart';
 
@@ -108,13 +109,14 @@ class MainTabView extends GetView<MainTabController> {
         inactiveIcon: GestureDetector(
           onTap: () {
             Get.toNamed(AppRoutes.addSubscriptionView);
+            // Get.to(MyHomePage(title: 'Calendar'));
           },
           child: const SizedBox(
             width: 60,
             height: 50,
             child: Icon(
               Icons.add,
-              color: Colors.grey,
+              color: Colors.white,
             ),
           ),
         ),

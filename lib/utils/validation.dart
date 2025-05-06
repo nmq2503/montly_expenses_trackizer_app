@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Validation {
   Validation._(); // Ngăn không cho tạo instance của lớp này
 
@@ -6,16 +8,15 @@ class Validation {
     if (email == null || email.isEmpty) {
       return "Email không được để trống";
     }
-    
+
     // Biểu thức chính quy kiểm tra email
-    String emailPattern =
-        r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+    String emailPattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
     RegExp regex = RegExp(emailPattern);
-    
+
     if (!regex.hasMatch(email)) {
       return "Email không hợp lệ";
     }
-    
+
     return null; // hợp lệ
   }
 
@@ -26,7 +27,8 @@ class Validation {
     }
 
     // Kiểm tra password có ít nhất 8 ký tự, một ký tự viết hoa, một ký tự đặc biệt và một số
-    String passwordPattern = r'^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$';
+    String passwordPattern =
+        r'^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$';
     RegExp regex = RegExp(passwordPattern);
 
     if (!regex.hasMatch(password)) {
@@ -34,5 +36,13 @@ class Validation {
     }
 
     return null; // hợp lệ
+  }
+
+// Hàm hỗ trợ để chuyển Timestamp hoặc String thành DateTime
+  static DateTime? convertToDateTime(dynamic value) {
+    if (value == null) return null;
+    if (value is Timestamp) return value.toDate();
+    if (value is String) return DateTime.tryParse(value);
+    return null;
   }
 }

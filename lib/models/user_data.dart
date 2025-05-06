@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../utils/validation.dart';
+
 class UserData {
   String? fullName;
   String? userName;
@@ -19,14 +21,16 @@ class UserData {
     this.updatedAt,
   });
 
-  UserData.fromJson(Map<String, dynamic> json) {
-    fullName = json["full_name"];
-    userName = json["user_name"];
-    email = json["email"];
-    phone = json["phone"];
-    imageUrl = json["image_url"];
-    createdAt = _convertToDateTime(json["created_at"]);
-    updatedAt = _convertToDateTime(json["updated_at"]);
+  factory UserData.fromJson(Map<String, dynamic> json) {
+    return UserData(
+      fullName: json["full_name"] as String?,
+      userName: json["user_name"] as String?,
+      email: json["email"] as String?,
+      phone: json["phone"] as String?,
+      imageUrl: json["image_url"] as String?,
+      createdAt: Validation.convertToDateTime(json["created_at"]),
+      updatedAt: Validation.convertToDateTime(json["updated_at"]),
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -42,10 +46,4 @@ class UserData {
   }
 }
 
-// Hàm hỗ trợ để chuyển Timestamp hoặc String thành DateTime
-DateTime? _convertToDateTime(dynamic value) {
-  if (value == null) return null;
-  if (value is Timestamp) return value.toDate();
-  if (value is String) return DateTime.tryParse(value);
-  return null;
-}
+
